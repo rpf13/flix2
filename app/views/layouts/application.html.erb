@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Flix2</title>
+    <title>Iconic Movies</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -11,6 +11,19 @@
   </head>
 
   <body>
-    <%= yield %>
+    <header>
+      <%= image_tag("logo.png") %>
+    </header>
+
+    <div class="content">
+      <%= yield %>
+    </div>
+
+    <footer>
+      <p>
+        Copyright &copy; <%= Time.now.year %>
+        <%= link_to "The Coding Factory", "https://github.com/rpf13" %>
+      </p>
+    </footer>
   </body>
 </html>
