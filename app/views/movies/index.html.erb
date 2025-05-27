@@ -1,4 +1,4 @@
-  <% @movies.each do |movie| %>
+<% @movies.each do |movie| %>
   <section class="movie">
     <div class="summary">
       <h2>
@@ -11,3 +11,7 @@
     </div>
   </section>
 <% end %>
+
+<section class="admin">
+  <%= link_to "Add new Movie", new_movie_path, class: "button"  %>
+</section>
