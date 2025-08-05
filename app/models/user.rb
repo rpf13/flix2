@@ -7,4 +7,9 @@ class User < ApplicationRecord
                     uniqueness: { case_sensitive: false }
   validates :password, length: { minimum: 8, blank: true }
   # blank is important because a password isn't required when a user updates his name and/or email.
+
+  def gravatar_id
+    Digest::MD5::hexdigest(email.downcase)
+  end
+
 end
