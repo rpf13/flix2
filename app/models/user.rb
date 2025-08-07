@@ -5,7 +5,7 @@ class User < ApplicationRecord
   validates :email, presence: true,
                     format: { with: /\S+@\S+/ },
                     uniqueness: { case_sensitive: false }
-  validates :password, length: { minimum: 8, blank: true }
+  validates :password, length: { minimum: 8, allow_blank: true }
   # blank is important because a password isn't required when a user updates his name and/or email.
 
   def gravatar_id

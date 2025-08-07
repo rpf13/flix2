@@ -20,6 +20,28 @@ class UsersController < ApplicationController
     end
   end
 
+  def edit
+    @user = User.find(params[:id])
+  end
+
+  def update
+    @user = User.find(params[:id])
+    if @user.update(user_params)
+      redirect_to @user, notice: "Account successfully updated!"
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    @user = User.find(params[:id])
+    @user.destroy
+    # A 303 See Other status explicitly tells the browser to make a fresh GET request to the redirect URL
+    # Without it, they might accidentally trigger another DELETE request
+    redirect_to movies_url, status: :see_other,
+      alert: "Account successfully, deleted!"
+  end
+
   private
 
   def user_params
