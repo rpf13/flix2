@@ -4,7 +4,19 @@ class SessionsController < ApplicationController
   end
 
   def create
-    fail
+    user = User.find_by(email: params[:email])
+    if user && user.authenticate(params[:password])
+      session[:user_id] = user.id
+
+      # used to debug and visualize the session id
+      # puts "Session contents: #{session.to_h}"
+      # puts "User ID in session: #{session[:user_id]}"
+
+      redirect_to user, notice: "Welcome back, #{user.name}!"
+    else
+      flash.now[:alert] = "Invalid email/password combination!"
+      render :new, status: :unprocessable_entity
+    end
   end
 
   def destroy
