@@ -37,6 +37,8 @@ class UsersController < ApplicationController
   def destroy
     @user = User.find(params[:id])
     @user.destroy
+    session[:user_id] = nil
+
     # A 303 See Other status explicitly tells the browser to make a fresh GET request to the redirect URL
     # Without it, they might accidentally trigger another DELETE request
     redirect_to movies_url, status: :see_other,
