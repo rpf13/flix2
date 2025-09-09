@@ -12,7 +12,7 @@ class SessionsController < ApplicationController
       # puts "Session contents: #{session.to_h}"
       # puts "User ID in session: #{session[:user_id]}"
 
-      redirect_to (session[:intended_url] || user),
+      redirect_to (session[:intended_url] || root_path),
                     notice: "Welcome back, #{user.name}!"
       session[:intended_url] = nil
     else
