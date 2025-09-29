@@ -4,6 +4,8 @@ class Movie < ApplicationRecord
   has_many :reviews, dependent: :destroy
   has_many :favorites, dependent: :destroy
   has_many :fans, through: :favorites, source: :user
+  has_many :characterizations, dependent: :destroy
+  has_many :genres, through: :characterizations
 
   validates :title, :released_on, :duration, presence: true
   validates :description, length: { minimum: 25 }
@@ -13,9 +15,6 @@ class Movie < ApplicationRecord
     message: "must be a JPG or PNG image"
   }
   validates :rating, inclusion: { in: RATINGS }
-
-  has_many :characterizations, dependent: :destroy
-  has_many :genres, through: :characterizations
 
   def self.released
     where("released_on < ?", Time.now).order(released_on: :desc)
