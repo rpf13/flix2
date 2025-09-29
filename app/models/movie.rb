@@ -14,6 +14,9 @@ class Movie < ApplicationRecord
   }
   validates :rating, inclusion: { in: RATINGS }
 
+  has_many :characterizations, dependent: :destroy
+  has_many :genres, through: :characterizations
+
   def self.released
     where("released_on < ?", Time.now).order(released_on: :desc)
   end
