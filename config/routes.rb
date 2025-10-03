@@ -6,6 +6,8 @@ Rails.application.routes.draw do
     resources :favorites, only: [:create, :destroy]
   end
 
+  get "movies/filter/:filter" => "movies#index", as: :filtered_movies
+
   resources :users
   get "signup" => "users#new"
 

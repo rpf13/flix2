@@ -3,7 +3,24 @@ class MoviesController < ApplicationController
   before_action :require_signin, except: [:index, :show]
   before_action :require_admin, except: [:index, :show]
   def index
-    @movies = Movie.released
+    @movies = Movie.send(movies_filter)
+    # old version not using the "send method"
+    # take care, for security reasons the send method
+    # MUST use the private "movies_filter" method, otherwise
+    # all scopes would be exposed to the public
+
+    # case params[:filter]
+    # when "upcoming"
+    #   @movies = Movie.upcoming
+    # when "recent"
+    #   @movies = Movie.recent
+    # when "hits"
+    #   @movies = Movie.hits
+    # when "flops"
+    #   @movies = Movie.flops
+    # else
+    #   @movies = Movie.released
+    # end
   end
 
   def show
@@ -54,5 +71,13 @@ class MoviesController < ApplicationController
   def movie_params
     params.require(:movie).
         permit(:title, :rating, :description, :released_on, :total_gross, :director, :duration, :image_file_name, genre_ids: [])
+  end
+
+  def movies_filter
+    if params[:filter].in? %w(upcoming recent hits flops)
+      params[:filter]
+    else
+      :released
+    end
   end
 end

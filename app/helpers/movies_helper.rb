@@ -11,6 +11,14 @@ module MoviesHelper
     movie.released_on.year
   end
 
+  def nav_link_to(text, url)
+    if current_page?(url)
+      link_to(text, url, class: "active")
+    else
+      link_to(text, url)
+    end
+  end
+
   # No longer used
   # def average_stars(movie)
   #   if movie.average_stars.zero?
