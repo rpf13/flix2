@@ -19,6 +19,14 @@ module MoviesHelper
     end
   end
 
+  def main_image(movie)
+    if movie.main_image.attached?
+      image_tag movie.main_image
+    else
+      image_tag "placeholder.png"
+    end
+  end
+
   # No longer used
   # def average_stars(movie)
   #   if movie.average_stars.zero?
