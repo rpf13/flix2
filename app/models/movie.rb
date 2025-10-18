@@ -13,6 +13,7 @@ class Movie < ApplicationRecord
   validates :total_gross, numericality: { greater_than_or_equal_to: 0 }
 
   validates :rating, inclusion: { in: RATINGS }
+  validate :acceptable_image
 
   scope :released, -> { where("released_on < ?", Time.now).order(released_on: :desc) }
   scope :upcoming, -> { where("released_on > ?", Time.now).order(released_on: :asc) }
@@ -50,5 +51,19 @@ class Movie < ApplicationRecord
 
   def average_stars_as_percent
     (average_stars / 5.0) * 100
+  end
+
+  private
+  def acceptable_image
+    return unless main_image.attached?
+
+    unless main_image.blob.byte_size <= 5.megabyte
+      errors.add(:main_image, "is too big")
+    end
+
+    acceptable_types = ["image/jpeg", "image/jpg", "image/png"]
+    unless acceptable_types.include?(main_image.blob.content_type)
+      errors.add(:main_image, "must be a JPEG or PNG")
+    end
   end
 end
